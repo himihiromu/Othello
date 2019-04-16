@@ -38,14 +38,14 @@ public class BordReturn {
 	 * @return 入れ替えられたかどうか
 	 * @throws PutErrException
 	 */
-	boolean returnSerch(int s, int v) throws PutErrException {
+	boolean returnSerch(int s, int v, boolean firstFlag) throws PutErrException {
 
 	}
 
 	/**
 	 * 指定した座標から指定した方向に石を裏返すことができるかを調べるメソッド
 	 * 座標と方向を引数で指定し、その方向に石があればtrueを返す
-	 * 
+	 *
 	 * @param s
 	 *            横の座標
 	 * @param v
@@ -56,10 +56,42 @@ public class BordReturn {
 	 *            縦の方向
 	 * @return 裏返すことができればtrue、できなければfalse
 	 */
-	boolean returnSerchOneDirection(int s, int v, int sdir, int vdir) {
-		boolean changeFlag = false;
-		while(bi.partOut(s, v) == -1) {
+	boolean returnSerchOneDirection(int s, int v, int sdir, int vdir, boolean firstFlag) {
+		boolean endFlag = false;
+		int stone = this.bi.partOut(s, v);
+		int changeable = 0;
 
+		if(firstFlag) {
+			while((stone != -1) && (endFlag == false)) {
+				switch (stone) {
+				case 0:
+				case 2:
+					endFlag = true;
+					break;
+				case 1:
+					s += sdir;
+					v += vdir;
+					stone = this.bi.partOut(s, v);
+					changeable++;
+					break;
+				}
+			}
+		} else {
+			while((stone != -1) && (endFlag == false)) {
+				switch (stone) {
+				case 0:
+				case 1:
+					endFlag = true;
+					break;
+				case 2:
+					s += sdir;
+					v += vdir;
+					stone = this.bi.partOut(s, v);
+					changeable++;
+					break;
+				}
+			}
 		}
+
 	}
 }
