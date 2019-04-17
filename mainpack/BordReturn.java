@@ -39,6 +39,44 @@ public class BordReturn {
 	 * @throws PutErrException
 	 */
 	boolean returnSerch(int s, int v, boolean firstFlag) throws PutErrException {
+		if(this.bi.partOut(s, v) == -1) {
+			throw new PutErrException("ここは壁です");
+		}
+		int sdir, vdir;
+
+		for(int direction = 1; direction < 10; direction++) {
+			sdir = direction % 3;
+			vdir = direction / 3;
+			switch (sdir) {
+			case 0:
+				sdir = 1;
+				break;
+			case 1:
+				sdir = -1;
+				break;
+			case 2:
+				sdir = 0;
+				break;
+			}
+			switch (vdir) {
+			case 0:
+				vdir = -1;
+				break;
+			case 1:
+				vdir = 0;
+				break;
+			case 2:
+				vdir = 1;
+				break;
+			}
+			if((sdir == 0) && (vdir == 0)) {
+				continue;
+			}
+			if(returnSerchOneDirection(s, v, sdir, vdir, firstFlag)) {
+				return true;
+			}
+		}
+		return false;
 
 	}
 
@@ -61,10 +99,21 @@ public class BordReturn {
 		int stone = this.bi.partOut(s, v);
 		int changeable = 0;
 
+		if(stone != 0) {
+			return false;
+		}
+
+		s += sdir;
+		v += vdir;
+		stone = this.bi.partOut(s, v);
+
 		if(firstFlag) {
 			while((stone != -1) && (endFlag == false)) {
 				switch (stone) {
 				case 0:
+					changeable = 0;
+					endFlag = true;
+					break;
 				case 2:
 					endFlag = true;
 					break;
@@ -80,6 +129,9 @@ public class BordReturn {
 			while((stone != -1) && (endFlag == false)) {
 				switch (stone) {
 				case 0:
+					changeable = 0;
+					endFlag = true;
+					break;
 				case 1:
 					endFlag = true;
 					break;
@@ -92,6 +144,10 @@ public class BordReturn {
 				}
 			}
 		}
-
+		if(changeable == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
