@@ -1,5 +1,6 @@
 package mainpack;
 
+import ExceptionSummary.NumErrException;
 import ExceptionSummary.PutErrException;
 import ExceptionSummary.ReturnErrException;
 
@@ -9,9 +10,9 @@ import ExceptionSummary.ReturnErrException;
  *
  */
 public class BordReturn {
-	BordInfo bi = null;
-	boolean[] returnJudgment = new boolean[9];
-	DecideDirection DD = new DecideDirection();
+	BordInfo bi = null;								//OthelloMainClassで扱うBordInfoインスタンスの参照値を格納するインスタンス変数
+	boolean[] returnJudgment = new boolean[9];	//入れ替え可能な方向を記録する配列
+	DecideDirection DD = new DecideDirection();		//DecideDirectionのインスタンス変数
 
 	public BordReturn(BordInfo bi) {
 		this.bi = bi;
@@ -27,8 +28,9 @@ public class BordReturn {
 	 *            縦の座標
 	 * @throws PutErrException
 	 * @throws ReturnErrException
+	 * @throws NumErrException
 	 */
-	void returnStone(int lateral, int vertical, boolean firstFlag) throws PutErrException, ReturnErrException {
+	void returnStone(int lateral, int vertical, boolean firstFlag) throws PutErrException, ReturnErrException, NumErrException {
 		for(int i = 0; i < 10; i++) {
 			returnJudgment[i] = false;
 		}
@@ -73,8 +75,9 @@ public class BordReturn {
 	 *            裏返し処理をするかしないか。
 	 * @return 入れ替えられたかどうか
 	 * @throws PutErrException
+	 * @throws NumErrException
 	 */
-	boolean returnSerch(int lateral, int vertical, boolean firstFlag, boolean returnFlag) throws PutErrException {
+	boolean returnSerch(int lateral, int vertical, boolean firstFlag, boolean returnFlag) throws PutErrException, NumErrException {
 		boolean canDoFlag = false;
 		if(this.bi.partOut(lateral, vertical) == -1) {
 			throw new PutErrException("ここは壁です");
@@ -100,7 +103,21 @@ public class BordReturn {
 		return canDoFlag;
 	}
 
-	boolean returnSerch(int s, int vertical, boolean firstFlag) throws PutErrException {
+	/**
+	 * returnSerchメソッドのreturnFlag省略版
+	 * 盤面の変更なしの場合省略して記述できるようにするため
+	 *
+	 * @param lateral
+	 *            横の座標
+	 * @param vertical
+	 *            縦の座標
+	 * @param firstFlag
+	 *            先攻か後攻かを受け取る
+	 * @return 入れ替えられたかどうか
+	 * @throws PutErrException
+	 * @throws NumErrException
+	 */
+	boolean returnSerch(int s, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
 		return returnSerch(s, vertical, firstFlag, false);
 	}
 
@@ -176,8 +193,23 @@ public class BordReturn {
 	}
 }
 
+/**
+ * 方向を座標の移動量に変換するクラス
+ *
+ * @author himihiromu
+ *
+ */
 class DecideDirection {
-	int sideDirection(int direction) {
+
+	/**
+	 * 進む方向の横の移動量を返すクラス
+	 *
+	 * @param direction
+	 *            進む方向
+	 * @return 横方向の移動量
+	 * @throws NumErrException
+	 */
+	int sideDirection(int direction) throws NumErrException {
 		int ldir;
 		ldir = direction % 3;
 		switch (ldir) {
@@ -190,11 +222,21 @@ class DecideDirection {
 		case 2:
 			ldir = 0;
 			break;
+		default:
+			throw new NumErrException("進む方向は1~9です");
 		}
 		return ldir;
 	}
 
-	int verticalDirection(int direction) {
+	/**
+	 * 進む方向の縦の移動量を返すクラス
+	 *
+	 * @param direction
+	 *            進む方向
+	 * @return 縦の移動量
+	 * @throws NumErrException
+	 */
+	int verticalDirection(int direction) throws NumErrException {
 		int vdir;
 		vdir = direction / 3;
 		switch (vdir) {
@@ -207,6 +249,8 @@ class DecideDirection {
 		case 2:
 			vdir = 1;
 			break;
+		default:
+			throw new NumErrException("進む方向は1~9です");
 		}
 		return vdir;
 
