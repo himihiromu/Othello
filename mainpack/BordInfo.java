@@ -21,12 +21,12 @@ class BordInfo {
 	 * オセロの盤面に壁を設定し、初期化するコンストラクタ
 	 */
 	BordInfo() {
-		/* 端に-1を設定するループ処理 */
+		/* 端に壁を設定するループ処理 */
 		for(int vertical = 0; vertical < 10; vertical++) {
 
 			int lateral = 0;
 
-			/* 行の両端の添え字になっていれば-1を設定 */
+			/* 行の両端の添え字になっていれば壁を設定 */
 			if((vertical == 0) || (vertical == 9)) {
 
 				while(lateral < 10) {
@@ -34,21 +34,21 @@ class BordInfo {
 					bord[vertical][lateral] = -1;
 					lateral++;
 				}
-				/* 行の両端ではないので壁と空白を設定 */
+				/* 行の両端ではないので両サイドに壁、それ以外には空白を設定 */
 			} else {
 
-				/* 壁の-1を設定 */
+				/* 壁を設定 */
 				bord[vertical][lateral] = -1;
 				lateral++;
 
-				/* 壁ではないので空白を設定 */
+				/* 空白を設定 */
 				while(lateral < 10) {
 
 					bord[vertical][lateral] = 0;
 					lateral++;
 
 				}
-				/* 壁の-1を設定 */
+				/* 壁を設定 */
 				bord[vertical][lateral] = -1;
 			}
 		}
@@ -136,6 +136,7 @@ class BordInfo {
 
 	/**
 	 * 指定した座標に石を置くメソッド
+	 *縦と横の座標を指定し、その場所に先攻なら黒を、後攻なら白を置く
 	 *
 	 * @param lateral
 	 *            横の座標
@@ -146,14 +147,19 @@ class BordInfo {
 	 * @throws PutErrException
 	 */
 	public void stonePut(int lateral, int vertical, boolean firstFlag) throws PutErrException {
-		/**/
-		if(!(bord[vertical][lateral] == 0)) {
-			throw new PutErrException("もう既にこの場所には石が置かれています");
-		}
-		if(firstFlag) {
-			bord[vertical][lateral] = 2;
-		} else {
-			bord[vertical][lateral] = 1;
+		/*空白かどうかの確認*/
+		if((bord[vertical][lateral] == 0) || (bord[vertical][lateral] == 3)) {
+			/*先攻か後攻かの判定*/
+			if(firstFlag) {
+				/*先攻なので黒を置く*/
+				bord[vertical][lateral] = 2;
+			} else {
+				/*後攻なので白を置く*/
+				bord[vertical][lateral] = 1;
+			}
+		}else{
+			/*空白じゃなかった*/
+			throw new PutErrException("この場所には石を置くことはできません");
 		}
 	}
 }
