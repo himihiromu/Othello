@@ -35,29 +35,21 @@ public class BordReturn {
 			returnJudgment[i] = false;
 		}
 
-		int stone = bi.stoneColor(firstFlag);
-		int ldir;
-		int vdir;
-
+		/* 裏返すことができる座標かどうかを調べる */
 		if(returnSerch(lateral, vertical, firstFlag, true)) {
+
+			/* 方向を指定してループする */
 			for(int direction = 1; direction < 10; direction++) {
 
+				/* returnJudgement配列がtrueだったらその方向の入れ替え処理をする */
 				if(returnJudgment[direction - 1]) {
-					ldir = DD.sideDirection(direction);
-					vdir = DD.verticalDirection(direction);
-
-					bi.stonePut(lateral, vertical, firstFlag);
-					lateral += ldir;
-					vertical += vdir;
-
-					while(bi.stoneColor(firstFlag) != stone) {
-						bi.stoneReturn(lateral, vertical);
-						lateral += ldir;
-						vertical += vdir;
-						stone = bi.partOut(lateral, vertical);
-					}
+					returnOneDirection(lateral, vertical, direction, firstFlag);
 				}
 			}
+
+			/* 裏返せない座標だったので例外を投げる */
+		} else {
+			throw new ReturnErrException("この座標は石を裏返すことができません");
 		}
 	}
 
@@ -117,8 +109,8 @@ public class BordReturn {
 	 * @throws PutErrException
 	 * @throws NumErrException
 	 */
-	boolean returnSerch(int s, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
-		return returnSerch(s, vertical, firstFlag, false);
+	boolean returnSerch(int lateral, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
+		return returnSerch(lateral, vertical, firstFlag, false);
 	}
 
 	/**
@@ -189,6 +181,46 @@ public class BordReturn {
 			return false;
 		} else {
 			return true;
+		}
+	}
+
+	/**
+	 * 受け取った座標から引数の方向に石を裏返していく
+	 * 引数で座標と方向、先攻か後攻かのフラグを受け取る
+	 *
+	 * @param lateral
+	 *            横の座標
+	 * @param vertical
+	 *            縦の座標
+	 * @param direction
+	 *            方向
+	 * @param firstFlag
+	 *            先攻か後攻かを受け取る
+	 * @throws NumErrException
+	 * @throws PutErrException
+	 * @throws ReturnErrException
+	 */
+	void returnOneDirection(int lateral, int vertical, int direction, boolean firstFlag) throws NumErrException, PutErrException, ReturnErrException {
+
+		int stone = bi.stoneColor(firstFlag);	//石の色を格納
+		int ldir;								//横の方向
+		int vdir;								//縦の方向
+
+		/* 方向を指定 */
+		ldir = DD.sideDirection(direction);
+		vdir = DD.verticalDirection(direction);
+
+		/* 指定した方向に座標を進める */
+		lateral += ldir;
+		vertical += vdir;
+
+		/* 石の色が違えば入れ替え、同じならやめる */
+		while(bi.stoneColor(firstFlag) != stone) {
+
+			bi.stoneReturn(lateral, vertical);		 //石を裏返す
+			lateral += ldir;
+			vertical += vdir;						//２つの座標を進める
+			stone = bi.partOut(lateral, vertical);	//次の座標の石を取得
 		}
 	}
 }

@@ -14,7 +14,6 @@ class BordInfo {
 	private final byte LIMIT = 10;
 	private int[][] bord = new int[LIMIT][LIMIT];
 	private boolean[][] bordflag = new boolean[LIMIT][LIMIT];
-	private BordConversion bc = new BordConversion();
 
 	/**
 	 * コンストラクタ
@@ -78,28 +77,6 @@ class BordInfo {
 		} else {
 			return 1;
 		}
-	}
-
-	/**
-	 * オセロの盤面の全体を表示するメソッド
-	 *
-	 */
-	public void output() {
-		System.out.println(" a b c d e f g h");
-
-		/* 縦のループ */
-		for(int vertical = 1; vertical < 9; vertical++) {
-			System.out.print(vertical);
-			/* 横のループ */
-			for(int lateral = 1; lateral < 9; lateral++) {
-
-				/* 盤面の出力 */
-				System.out.print(bc.intToStone(bord[vertical][lateral]));
-			}
-			/* 改行 */
-			System.out.println();
-		}
-
 	}
 
 	/**
@@ -181,29 +158,5 @@ class BordInfo {
 			/* 空白じゃなかった */
 			throw new PutErrException("この場所には石を置くことはできません");
 		}
-	}
-}
-
-/**
- * 数字によって盤面の記号を呼び分けるクラス
- *
- * @author himihiromu
- *
- */
-class BordConversion {
-	char intToStone(int num) {
-		switch (num) {
-		case -1:
-			return '■';
-		case 0:
-			return '□';
-		case 1:
-			return '○';
-		case 2:
-			return '●';
-		case 3:
-			return '☆';
-		}
-		return 0;
 	}
 }
