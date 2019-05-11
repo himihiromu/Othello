@@ -8,20 +8,20 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public String input() {
+		BufferedReader br = new BufferedReader(InputStreamReader(System.in));
+		
 		return null;
 
 	}
 
 	@Override
 	String nameOutput() {
-		// ここにコードを挿入
-		return null;
+		return this.playername;
 	}
 
 	@Override
 	boolean firstFlagOutput() {
-		// ここにコードを挿入
-		return false;
+		return firstFlag;
 	}
 
 }
