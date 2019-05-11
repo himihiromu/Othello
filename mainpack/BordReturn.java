@@ -10,9 +10,9 @@ import ExceptionSummary.ReturnErrException;
  *
  */
 public class BordReturn {
-	BordInfo bi = null;								//OthelloMainClassで扱うBordInfoインスタンスの参照値を格納するインスタンス変数
-	boolean[] returnJudgment = new boolean[9];	//入れ替え可能な方向を記録する配列
-	DecideDirection DD = new DecideDirection();		//DecideDirectionのインスタンス変数
+	private BordInfo bi = null;								//OthelloMainClassで扱うBordInfoインスタンスの参照値を格納するインスタンス変数
+	private boolean[] returnJudgment = new boolean[9];	//入れ替え可能な方向を記録する配列
+	private DecideDirection DD = new DecideDirection();		//DecideDirectionのインスタンス変数
 
 	public BordReturn(BordInfo bi) {
 		this.bi = bi;
@@ -70,23 +70,35 @@ public class BordReturn {
 	 * @throws NumErrException
 	 */
 	boolean returnSerch(int lateral, int vertical, boolean firstFlag, boolean returnFlag) throws PutErrException, NumErrException {
-		boolean canDoFlag = false;
-		if(this.bi.partOut(lateral, vertical) == -1) {
+		boolean canDoFlag = false;			//この座標は石を入れ替えられるかどうかの判定に使う
+
+		/* 空白の座標以外は例外を飛ばして処理をしない */
+		int placeInfo = this.bi.partOut(lateral, vertical);
+		if((placeInfo != 0) && (placeInfo != 3)) {
 			throw new PutErrException("ここは壁です");
 		}
-		int ldir, vdir;
 
+		int ldir, vdir;						//進む方向を保持
+
+		/* 方向を指定してループ */
 		for(int direction = 1; direction < 10; direction++) {
 			ldir = DD.sideDirection(direction);
 			vdir = DD.verticalDirection(direction);
 
+			/* 縦横移動距離0(direction = 5)の時は次のループへ */
 			if((ldir == 0) && (vdir == 0)) {
 				continue;
 			}
+
+			/* その方向に裏返すことができるか */
 			if(returnSerchOneDirection(lateral, vertical, ldir, vdir, firstFlag)) {
+
+				/* 裏返す処理をしているので方向を記録 */
 				if(returnFlag) {
 					returnJudgment[direction - 1] = true;
 					canDoFlag = true;
+
+					/* 調べるだけなので裏返せる方向が一つでもあればtrueを返す */
 				} else {
 					return true;
 				}
@@ -127,22 +139,23 @@ public class BordReturn {
 	 *            縦の方向
 	 * @return 裏返すことができればtrue、できなければfalse
 	 */
-	boolean returnSerchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) {
-		boolean endFlag = false;
-		int stone = this.bi.partOut(lateral, vertical);
-		int changeable = 0;
+	private boolean returnSerchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) {
 
-		if(stone != 0) {
+		boolean endFlag = false;								//処理の終了判定
+		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
+		int changeable = 0;										//裏返すことができる枚数を記録
+
+		if(placeInfo != 0) {
 			return false;
 		}
 
 		lateral += ldir;
 		vertical += vdir;
-		stone = this.bi.partOut(lateral, vertical);
+		placeInfo = this.bi.partOut(lateral, vertical);
 
 		if(firstFlag) {
-			while((stone != -1) && (endFlag == false)) {
-				switch (stone) {
+			while((placeInfo != -1) && (endFlag == false)) {
+				switch (placeInfo) {
 				case 0:
 					changeable = 0;
 					endFlag = true;
@@ -153,14 +166,14 @@ public class BordReturn {
 				case 1:
 					lateral += ldir;
 					vertical += vdir;
-					stone = this.bi.partOut(lateral, vertical);
+					placeInfo = this.bi.partOut(lateral, vertical);
 					changeable++;
 					break;
 				}
 			}
 		} else {
-			while((stone != -1) && (endFlag == false)) {
-				switch (stone) {
+			while((placeInfo != -1) && (endFlag == false)) {
+				switch (placeInfo) {
 				case 0:
 					changeable = 0;
 					endFlag = true;
@@ -171,7 +184,7 @@ public class BordReturn {
 				case 2:
 					lateral += ldir;
 					vertical += vdir;
-					stone = this.bi.partOut(lateral, vertical);
+					placeInfo = this.bi.partOut(lateral, vertical);
 					changeable++;
 					break;
 				}
@@ -200,7 +213,7 @@ public class BordReturn {
 	 * @throws PutErrException
 	 * @throws ReturnErrException
 	 */
-	void returnOneDirection(int lateral, int vertical, int direction, boolean firstFlag) throws NumErrException, PutErrException, ReturnErrException {
+	private void returnOneDirection(int lateral, int vertical, int direction, boolean firstFlag) throws NumErrException, PutErrException, ReturnErrException {
 
 		int stone = bi.stoneColor(firstFlag);	//石の色を格納
 		int ldir;								//横の方向
