@@ -3,8 +3,8 @@ package users;
 import java.io.IOException;
 
 abstract class Player {
-	private String playerName;
-	private boolean firstFlag;
+	protected String playerName;
+	protected boolean firstFlag;
 
 	public Player(String name, boolean firstFlag) {
 		this.playerName = name;

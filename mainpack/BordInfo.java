@@ -88,11 +88,19 @@ class BordInfo {
 	 * @param vertical
 	 *            縦の座標
 	 * @return -1~3の座標
+	 * @throws PutErrException
 	 */
-	public int partOut(int lateral, int vertical) {
+	public int partOut(int lateral, int vertical) throws PutErrException {
 
-		/* 指定された座標の状態を返り値に設定 */
-		return bord[vertical][lateral];
+		int stone;
+
+		/* 指定された座標の状態を設定 */
+		try {
+			stone = bord[vertical][lateral];
+		} catch (IndexOutOfBoundsException e) {
+			throw new PutErrException("その座標はありません");
+		}
+		return stone;
 	}
 
 	/**

@@ -153,35 +153,29 @@ public class BordReturn {
 		vertical += vdir;
 		placeInfo = this.bi.partOut(lateral, vertical);
 
-		if(firstFlag) {
-			while((placeInfo != -1) && (endFlag == false)) {
-				switch (placeInfo) {
-				case 0:
-					changeable = 0;
-					endFlag = true;
-					break;
-				case 2:
-					endFlag = true;
-					break;
-				case 1:
+		while((placeInfo != -1) && (endFlag == false)) {
+			switch (placeInfo) {
+			case 0:
+			case 3:
+				changeable = 0;
+				endFlag = true;
+				break;
+			case 1:
+				if(firstFlag) {
 					lateral += ldir;
 					vertical += vdir;
 					placeInfo = this.bi.partOut(lateral, vertical);
 					changeable++;
 					break;
+				} else {
+					endFlag = true;
+					break;
 				}
-			}
-		} else {
-			while((placeInfo != -1) && (endFlag == false)) {
-				switch (placeInfo) {
-				case 0:
-					changeable = 0;
+			case 2:
+				if(firstFlag) {
 					endFlag = true;
 					break;
-				case 1:
-					endFlag = true;
-					break;
-				case 2:
+				} else {
 					lateral += ldir;
 					vertical += vdir;
 					placeInfo = this.bi.partOut(lateral, vertical);
@@ -190,6 +184,7 @@ public class BordReturn {
 				}
 			}
 		}
+
 		if(changeable == 0) {
 			return false;
 		} else {
