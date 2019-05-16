@@ -18,6 +18,16 @@ public class BordReturn {
 		this.bi = bi;
 	}
 
+	public void output(){
+		int v = 0;
+		while(v < 10){
+			int s = 0;
+			while(s < 10){
+			System.out.print();
+			}
+		}
+	}
+
 	/**
 	 * 石を盤面に置くメソッド
 	 * 座標を引数にして盤面に石を置き、同じ色で挟んだ石を裏返す。
