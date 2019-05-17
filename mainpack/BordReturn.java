@@ -11,24 +11,37 @@ import ExceptionSummary.ReturnErrException;
  */
 public class BordReturn {
 	private BordInfo bi = null;								//OthelloMainClassで扱うBordInfoインスタンスの参照値を格納するインスタンス変数
-	private boolean[] returnJudgment = new boolean[9];	//入れ替え可能な方向を記録する配列
+	private boolean[] returnJudgment = new boolean[9];		//入れ替え可能な方向を記録する配列
 	private DecideDirection DD = new DecideDirection();		//DecideDirectionのインスタンス変数
 
+	/**
+	 * コンストラクタ
+	 * BordInfoインスタンスのアドレスを受けとり、参照できるようにする
+	 * @param bi BordInfoインスタンス
+	 */
 	public BordReturn(BordInfo bi) {
 		this.bi = bi;
 	}
 
+	/**
+	 * 盤面の出力クラス
+	 * 呼び出すと盤面がコンソールに出力される
+	 */
 	public void output(){
 		BordConversion bc = new BordConversion();
-		int v = 0;
-		while(v <= 10){
-			int s = 0;
-			while(s <= 10){
-				System.out.print(bc.intToStone(bi.partOut(l,v)));
-				s++;
+		int vertical;
+		int lateral;
+		System.out.println(" abcdefgh");
+		for(vertical = 1 ; vertical < 9 ; vertical++){
+			System.out.print(vertical);
+			for(lateral = 1 ; lateral < 9 ; lateral++){
+				try {
+					System.out.print(bc.intToStone(bi.partOut(lateral,vertical)));
+				} catch (PutErrException e) {
+					e.printStackTrace();
+				}
 			}
 			System.out.println();
-			v++;
 		}
 	}
 
@@ -38,14 +51,14 @@ public class BordReturn {
 	 *
 	 * @param lateral
 	 *            横の座標
-	 * @param Vertical
+	 * @param vertical
 	 *            縦の座標
 	 * @throws PutErrException
 	 * @throws ReturnErrException
 	 * @throws NumErrException
 	 */
 	void returnStone(int lateral, int vertical, boolean firstFlag) throws PutErrException, ReturnErrException, NumErrException {
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 9; i++) {
 			returnJudgment[i] = false;
 		}
 
@@ -152,8 +165,9 @@ public class BordReturn {
 	 * @param vdir
 	 *            縦の方向
 	 * @return 裏返すことができればtrue、できなければfalse
+	 * @throws PutErrException 
 	 */
-	private boolean returnSerchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) {
+	private boolean returnSerchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) throws PutErrException {
 
 		boolean endFlag = false;								//処理の終了判定
 		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
@@ -294,6 +308,7 @@ class DecideDirection {
 		int vdir;
 		vdir = direction / 3;
 		switch (vdir) {
+		case 3:
 		case 0:
 			vdir = -1;
 			break;
