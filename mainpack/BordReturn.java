@@ -19,12 +19,16 @@ public class BordReturn {
 	}
 
 	public void output(){
+		BordConversion bc = new BordConversion();
 		int v = 0;
-		while(v < 10){
+		while(v <= 10){
 			int s = 0;
-			while(s < 10){
-			System.out.print();
+			while(s <= 10){
+				System.out.print(bc.intToStone(bi.partOut(l,v)));
+				s++;
 			}
+			System.out.println();
+			v++;
 		}
 	}
 
