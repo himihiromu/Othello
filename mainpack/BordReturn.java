@@ -315,9 +315,9 @@ class DecideDirection {
 	 */
 	int verticalDirection(int direction) throws NumErrException {
 		int vdir;
+		direction - 1;
 		vdir = direction / 3;
 		switch (vdir) {
-		case 3:
 		case 0:
 			vdir = -1;
 			break;
