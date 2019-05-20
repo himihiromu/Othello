@@ -173,7 +173,7 @@ public class BordReturn {
 		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
 		int changeable = 0;										//裏返すことができる枚数を記録
 
-		if(placeInfo != 0) {
+		if((placeInfo != 0)(placeInfo != 3)) {
 			return false;
 		}
 
