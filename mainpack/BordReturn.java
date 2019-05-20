@@ -180,13 +180,14 @@ public class BordReturn {
 		boolean endFlag = false;								//処理の終了判定
 		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
 		int changeable = 0;										//裏返すことができる枚数を記録
-
+		
+		/*その座標が空白じゃなかったら*/
 		if((placeInfo != 0) && (placeInfo != 3)) {
 			return false;
 		}
-
-		lateral += ldir;
-		vertical += vdir;
+		
+		lateral += ldir;				//
+		vertical += vdir;				//
 		placeInfo = this.bi.partOut(lateral, vertical);
 
 		while((placeInfo != -1) && (endFlag == false)) {
