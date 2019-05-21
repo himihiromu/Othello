@@ -186,10 +186,11 @@ public class BordReturn {
 			return false;
 		}
 		
-		lateral += ldir;				//
-		vertical += vdir;				//
-		placeInfo = this.bi.partOut(lateral, vertical);
+		lateral += ldir;				//横の座標を進める
+		vertical += vdir;				//縦の座標を進める
+		placeInfo = this.bi.partOut(lateral, vertical);	//石の情報を取得する
 
+		
 		while((placeInfo != -1) && (endFlag == false)) {
 			switch (placeInfo) {
 			case 0:
@@ -315,7 +316,7 @@ class DecideDirection {
 	 */
 	int verticalDirection(int direction) throws NumErrException {
 		int vdir;
-		direction - 1;
+		direction--;
 		vdir = direction / 3;
 		switch (vdir) {
 		case 0:
