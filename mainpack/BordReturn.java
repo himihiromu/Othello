@@ -28,15 +28,23 @@ public class BordReturn {
 	 * 呼び出すと盤面がコンソールに出力される
 	 */
 	public void output(){
-		BordConversion bc = new BordConversion();
-		int vertical;
-		int lateral;
+		
+		BordConversion bc = new BordConversion();	//石や空白、壁などを表示するときに数字から文字に変換してくれるクラス
+		int vertical;								//縦
+		int lateral;								//横
+		
+		/*入力するときの座標が見てわかりやすいように*/
 		System.out.println(" abcdefgh");
+		
+		/*縦のループ*/
 		for(vertical = 1 ; vertical < 9 ; vertical++){
-			System.out.print(vertical);
+			
+			System.out.print(vertical);		//縦の座標がわかりやすいように
+			
+			/*横のループ*/
 			for(lateral = 1 ; lateral < 9 ; lateral++){
 				try {
-					System.out.print(bc.intToStone(bi.partOut(lateral,vertical)));
+					System.out.print(bc.intToStone(bi.partOut(lateral,vertical)));	//その座標の情報を表示
 				} catch (PutErrException e) {
 					e.printStackTrace();
 				}
@@ -172,15 +180,17 @@ public class BordReturn {
 		boolean endFlag = false;								//処理の終了判定
 		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
 		int changeable = 0;										//裏返すことができる枚数を記録
-
-		if(placeInfo != 0) {
+		
+		/*その座標が空白じゃなかったら*/
+		if((placeInfo != 0) && (placeInfo != 3)) {
 			return false;
 		}
+		
+		lateral += ldir;				//横の座標を進める
+		vertical += vdir;				//縦の座標を進める
+		placeInfo = this.bi.partOut(lateral, vertical);	//石の情報を取得する
 
-		lateral += ldir;
-		vertical += vdir;
-		placeInfo = this.bi.partOut(lateral, vertical);
-
+		
 		while((placeInfo != -1) && (endFlag == false)) {
 			switch (placeInfo) {
 			case 0:
@@ -306,9 +316,9 @@ class DecideDirection {
 	 */
 	int verticalDirection(int direction) throws NumErrException {
 		int vdir;
+		direction--;
 		vdir = direction / 3;
 		switch (vdir) {
-		case 3:
 		case 0:
 			vdir = -1;
 			break;
