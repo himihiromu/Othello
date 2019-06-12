@@ -36,12 +36,12 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public String nameOutput() {
+	public String getName() {
 		return this.playerName;
 	}
 
 	@Override
-	public boolean firstFlagOutput() {
+	public boolean isFirstFlag() {
 		return firstFlag;
 	}
 
