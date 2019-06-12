@@ -15,7 +15,7 @@ public class OthelloMain {
 		String pattern = "[0-2]";
 
 		System.out.println(“プレイ人数を入力してください。”);
-		String inputStr = br.readline();
+		String inputStr = br.readLine();
 
 		while(true){
 			if(pm.PatternMatcher(pattern, inputStr)) {
