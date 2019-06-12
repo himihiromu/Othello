@@ -104,7 +104,7 @@ public class BordReturn {
 	 * @throws PutErrException
 	 * @throws NumErrException
 	 */
-	boolean returnSerch(int lateral, int vertical, boolean firstFlag, boolean returnFlag) throws PutErrException, NumErrException {
+	boolean returnSearch(int lateral, int vertical, boolean firstFlag, boolean returnFlag) throws PutErrException, NumErrException {
 		boolean canDoFlag = false;			//この座標は石を入れ替えられるかどうかの判定に使う
 
 		/* 空白の座標以外は例外を飛ばして処理をしない */
@@ -156,7 +156,7 @@ public class BordReturn {
 	 * @throws PutErrException
 	 * @throws NumErrException
 	 */
-	boolean returnSerch(int lateral, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
+	boolean returnSearch(int lateral, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
 		return returnSerch(lateral, vertical, firstFlag, false);
 	}
 
@@ -175,7 +175,7 @@ public class BordReturn {
 	 * @return 裏返すことができればtrue、できなければfalse
 	 * @throws PutErrException 
 	 */
-	private boolean returnSerchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) throws PutErrException {
+	private boolean returnSearchOneDirection(int lateral, int vertical, int ldir, int vdir, boolean firstFlag) throws PutErrException {
 
 		boolean endFlag = false;								//処理の終了判定
 		int placeInfo = this.bi.partOut(lateral, vertical);	//その座標の情報を取得
