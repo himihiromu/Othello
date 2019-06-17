@@ -13,7 +13,6 @@ class BordInfo {
 
 	private final byte LIMIT = 10;
 	private int[][] bord = new int[LIMIT][LIMIT];
-	private boolean[][] bordflag = new boolean[LIMIT][LIMIT];
 
 	/**
 	 * コンストラクタ

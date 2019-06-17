@@ -13,7 +13,7 @@ abstract class Player {
 
 	abstract String input() throws IOException;
 
-	abstract String nameOutput();
+	abstract String getName();
 
-	abstract boolean firstFlagOutput();
+	abstract boolean isFirstFlag();
 }

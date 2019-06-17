@@ -71,7 +71,7 @@ public class BordReturn {
 		}
 
 		/* 裏返すことができる座標かどうかを調べる */
-		if(returnSerch(lateral, vertical, firstFlag, true)) {
+		if(returnSearch(lateral, vertical, firstFlag, true)) {
 
 			/* 方向を指定してループする */
 			for(int direction = 1; direction < 10; direction++) {
@@ -126,7 +126,7 @@ public class BordReturn {
 			}
 
 			/* その方向に裏返すことができるか */
-			if(returnSerchOneDirection(lateral, vertical, ldir, vdir, firstFlag)) {
+			if(returnSearchOneDirection(lateral, vertical, ldir, vdir, firstFlag)) {
 
 				/* 裏返す処理をしているので方向を記録 */
 				if(returnFlag) {
@@ -157,7 +157,7 @@ public class BordReturn {
 	 * @throws NumErrException
 	 */
 	boolean returnSearch(int lateral, int vertical, boolean firstFlag) throws PutErrException, NumErrException {
-		return returnSerch(lateral, vertical, firstFlag, false);
+		return returnSearch(lateral, vertical, firstFlag, false);
 	}
 
 	/**
