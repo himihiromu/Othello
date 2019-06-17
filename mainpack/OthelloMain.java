@@ -4,7 +4,8 @@ public class OthelloMain {
 	boolean firstFlag = false;
 
 	public static void main(String[] args) {
-		BordReturn br = BordReturn();
+		BordInfo bi = new BordInfo();
+		BordReturn br = new BordReturn(bi);
 		
 
 	}
@@ -14,14 +15,14 @@ public class OthelloMain {
 		PatternMatch pm = new PatternMatch();
 		String pattern = "[0-2]";
 
-		System.out.println(“プレイ人数を入力してください。”);
-		String inputStr = br.readline();
+		System.out.println("プレイ人数を入力してください。");
+		String inputStr = br.readLine();
 
 		while(true){
 			if(pm.PatternMatcher(pattern, inputStr)) {
 				break;
 			}
-			System.out.println(“もう一度入力してください ”);
+			System.out.println("もう一度入力してください 。");
 			inputStr = br.readline();
 			
 		}
